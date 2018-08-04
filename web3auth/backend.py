@@ -16,7 +16,7 @@ class Web3Backend(backends.ModelBackend):
             return None
         else:
             # get address field for the user model
-                address_field = app_settings.WEB3AUTH_USER_ADDRESS_FIELD
+                address_field = app_settings.SCATTERAUTH_USER_ADDRESS_FIELD
                 kwargs = {
                     address_field+"__iexact": address
                 }

@@ -7,7 +7,7 @@ and 2 views for Signup (one with JSON responses, and the other - using Django Fo
 
 It also has 2 forms, SignupForm (rendered) and LoginForm (uses hidden inputs, used to validate data only).
 
-Possible configuration includes customizable address field (``WEB3AUTH_USER_ADDRESS_FIELD``), additional fields for User model (``WEB3AUTH_USER_SIGNUP_FIELDS``) and on/off switch for registration (``WEB3AUTH_SIGNUP_ENABLED``).
+Possible configuration includes customizable address field (``SCATTERAUTH_USER_ADDRESS_FIELD``), additional fields for User model (``SCATTERAUTH_USER_SIGNUP_FIELDS``) and on/off switch for registration (``SCATTERAUTH_SIGNUP_ENABLED``).
 You can read more on that in the Configuration section.
 
 Sign up
@@ -16,7 +16,7 @@ Sign up
 The signup process is as follows (signup_view example, signup_api is similar):
 
 1. User heads to the signup URL (``{% url 'web3auth_signup' %}``)
-2. The signup view is rendered with a ``SignupForm`` which includes ``WEB3AUTH_USER_SIGNUP_FIELDS`` and ``WEB3AUTH_USER_ADDRESS_FIELD``
+2. The signup view is rendered with a ``SignupForm`` which includes ``SCATTERAUTH_USER_SIGNUP_FIELDS`` and ``SCATTERAUTH_USER_ADDRESS_FIELD``
 3. The user enters required data and clicks the submit button and the POST request fires to the same URL with ``signup_view``
 4. Signup view does the following:
     4.1. Creates an instance of a ``SignupForm``.

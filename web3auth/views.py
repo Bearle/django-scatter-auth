@@ -11,7 +11,7 @@ from web3auth.forms import LoginForm, SignupForm
 from web3auth.utils import recover_to_addr
 from django.utils.translation import ugettext_lazy as _
 from web3auth.settings import app_settings
-
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 
@@ -56,15 +56,15 @@ def login_api(request):
             else:
                 return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
 
-
+@csrf_exempt
 @require_http_methods(["POST"])
 def signup_api(request):
-    if not app_settings.WEB3AUTH_SIGNUP_ENABLED:
+    if not app_settings.SCATTERAUTH_SIGNUP_ENABLED:
         return JsonResponse({'success': False, 'error': _("Sorry, signup's are currently disabled")})
     form = SignupForm(request.POST)
     if form.is_valid():
         user = form.save(commit=False)
-        addr_field = app_settings.WEB3AUTH_USER_ADDRESS_FIELD
+        addr_field = app_settings.SCATTERAUTH_USER_ADDRESS_FIELD
         setattr(user, addr_field, form.cleaned_data[addr_field])
         user.save()
         login(request, user, 'web3auth.backend.Web3Backend')
@@ -88,14 +88,14 @@ def signup_view(request, template_name='web3auth/signup.html'):
     :return: rendered template with form
     """
     form = SignupForm()
-    if not app_settings.WEB3AUTH_SIGNUP_ENABLED:
+    if not app_settings.SCATTERAUTH_SIGNUP_ENABLED:
         form.add_error(None, _("Sorry, signup's are currently disabled"))
     else:
         if request.method == 'POST':
             form = SignupForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
-                addr_field = app_settings.WEB3AUTH_USER_ADDRESS_FIELD
+                addr_field = app_settings.SCATTERAUTH_USER_ADDRESS_FIELD
                 setattr(user, addr_field, form.cleaned_data[addr_field])
                 user.save()
                 login(request, user, 'web3auth.backend.Web3Backend')

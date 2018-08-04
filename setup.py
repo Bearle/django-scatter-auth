@@ -45,21 +45,21 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
-    name='django-web3-auth',
+    name='django-scatter-auth',
     version=version,
     description="""django-web3-auth is a pluggable Django app that enables login/signup via an Ethereum wallet (a la CryptoKitties). The user authenticates themselves by digitally signing the session key with their wallet's private key.""",
     long_description=readme + '\n\n' + history,
     author='Bearle',
     author_email='tech@bearle.ru',
-    url='https://github.com/Bearle/django-web3-auth',
+    url='https://github.com/Bearle/django-scatter-auth',
     packages=[
-        'web3auth',
+        'scatter_auth',
     ],
     include_package_data=True,
     install_requires=['ethereum>=2.3.1', 'rlp==0.6.0','eth_utils>=1.0.3'],
     license="MIT",
     zip_safe=False,
-    keywords='django-web3-auth',
+    keywords='django-scatter-auth',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django :: 1.11',

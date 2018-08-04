@@ -1,4 +1,5 @@
-{% load staticfiles i18n %}<!DOCTYPE html>
+{% load static i18n %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -45,6 +46,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'web3auth_signup' %}">Signup</a>
         </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link">Logged in as {{ request.user.username }}</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </nav>
@@ -84,7 +90,24 @@
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+  <script>
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
 
+  </script>
   <!-- Your stuff: Third-party javascript libraries go here -->
   <script src="{% static 'web3auth/js/web3auth.js' %}"></script>
 

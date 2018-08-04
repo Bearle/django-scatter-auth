@@ -4,8 +4,8 @@ Settings
 
 You should specify settings in your settings.py like this::
 
-    WEB3AUTH_USER_ADDRESS_FIELD = 'address'
-    WEB3AUTH_USER_SIGNUP_FIELDS = ['email', 'username']
+    SCATTERAUTH_USER_ADDRESS_FIELD = 'address'
+    SCATTERAUTH_USER_SIGNUP_FIELDS = ['email', 'username']
 
 
 In the above example the following User model is used:
@@ -29,9 +29,9 @@ Here's a list of available settings:
 +--------------------------------+------------+-------------------------------------------------------------------------+
 | Setting                        | Default    | Description                                                             |
 +================================+============+=========================================================================+
-| WEB3AUTH_SIGNUP_ENABLED        | True       | If False, new users won't be able to sign up (used in ``signup_view``)  |
+| SCATTERAUTH_SIGNUP_ENABLED        | True       | If False, new users won't be able to sign up (used in ``signup_view``)  |
 +--------------------------------+------------+-------------------------------------------------------------------------+
-| WEB3AUTH_USER_SIGNUP_FIELDS    | ['email']  | Specifies field to be used in signup form for a new User model          |
+| SCATTERAUTH_USER_SIGNUP_FIELDS    | ['email']  | Specifies field to be used in signup form for a new User model          |
 +--------------------------------+------------+-------------------------------------------------------------------------+
-| WEB3AUTH_USER_ADDRESS_FIELD    | 'username' | Field on the User model, which has ethereum address to check against.   |
+| SCATTERAUTH_USER_ADDRESS_FIELD    | 'username' | Field on the User model, which has ethereum address to check against.   |
 +--------------------------------+------------+-------------------------------------------------------------------------+
