@@ -1,0 +1,7 @@
+# Your app requirements.
+-r ../requirements_test.txt
+
+# Your app in editable mode.
+-e ../
+Django==2.1
+packaging==16.8
