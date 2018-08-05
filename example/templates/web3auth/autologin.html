@@ -12,96 +12,16 @@
 {% block javascript %}
   {{ block.super }}
   <script>
-
-    const CHAIN_ID = '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca';
-    const CHAIN_PROTOCOL = 'http';
-    const CHAIN_HOST = '193.93.219.219';
-    const CHAIN_PORT = 8888;
-
-    const NETWORK = {
-      protocol: CHAIN_PROTOCOL,
-      blockchain: 'eos',
-      host: CHAIN_HOST,
-      port: CHAIN_PORT,
-      chainId: CHAIN_ID
-    };
-
-
-    const getAuthorization = () => {
-      const account = scatter.identity.accounts.find(account => account.blockchain === 'eos');
-
-      return {
-        permission: {
-          authorization: [`${account.name}@${account.authority}`]
-        },
-        account
-      }
-    };
-
-    const getEos = () => {
-
-      var config = {
-        broadcast: true,
-        sign: true,
-        chainId: CHAIN_ID
-      };
-
-      return scatter.eos(NETWORK, Eos, config);
-    };
-
-    async function requestIdentity() {
-      await scatter.suggestNetwork(NETWORK);
-
-      let required_fields = {
-        personal: ['email'],
-        accounts: [NETWORK]
-      };
-
-      scatter.getIdentity(required_fields).then((identity) => {
-        var user = {
-          eosAccount: scatter.identity.accounts[0].name,
-          publicKey: scatter.identity.publicKey
-        };
-        console.log("Connected");
-        console.log(scatter.identity);
-        document.getElementById('container-text').innerHTML = "Welcome, " + user[eosAccount]
-      }).catch(error => {
-        document.getElementById('container-text').innerHTML = "Identity or Network was rejected";
-        console.log("Identity or Network was rejected");
-      })
-    }
-
+    var login_url = '{% url 'web3auth_login_api' %}';
     document.addEventListener('scatterLoaded', scatterExtension => {
       console.log('scatter loaded');
-      document.getElementById('scatter-status').innerHTML = "Scatter installed!";
       if (scatter.identity) {
         console.log("Identity found");
-        console.log(scatter.identity);
+        scatterLogin(login_url, console.log, console.log, console.log, console.log, console.log, console.log);
         document.getElementById('container-text').innerHTML = "Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey
       } else {
-        requestIdentity()
+        console.log('identity not found, have to signup')
       }
     });
-    {% comment %}
-    ready(function () {
-      if (typeof scatter !== 'undefined') {
-        console.log('scatter is found');
-
-        //checkWeb3(function (loggedIn) {
-        //  if (!loggedIn) {
-        //    alert("Please unlock your web3 provider (probably, Metamask)")
-        //  } else {
-        //    var login_url = '{% url 'web3auth_login_api' %}';
-        //    web3Login(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
-        //      window.location.replace(resp.redirect_url);
-        //    });
-        //  }
-        //});
-
-      } else {
-        console.log('scatter missing');
-      }
-    });
-    {% endcomment %}
   </script>
 {% endblock javascript %}

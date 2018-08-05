@@ -12,7 +12,11 @@ class Web3Backend(backends.ModelBackend):
         # get user model
         User = get_user_model()
         # check if the address the user has provided matches the signature
-        if not address == recover_to_addr(token, signature):
+        try:
+            address_verify = recover_to_addr(token, signature)
+        except:
+            return None
+        if not address == address_verify:
             return None
         else:
             # get address field for the user model

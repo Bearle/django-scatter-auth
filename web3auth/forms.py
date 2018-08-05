@@ -9,7 +9,7 @@ from web3auth.settings import app_settings
 
 class LoginForm(forms.Form):
     signature = forms.CharField(widget=forms.HiddenInput, max_length=132)
-    address = forms.CharField(widget=forms.HiddenInput, max_length=42)
+    address = forms.CharField(widget=forms.HiddenInput, max_length=12)
 
     def __init__(self, token, *args, **kwargs):
         self.token = token
@@ -17,9 +17,10 @@ class LoginForm(forms.Form):
 
     def clean_signature(self):
         sig = self.cleaned_data['signature']
-        if len(sig) != 132 or (sig[130:] != '1b' and sig[130:] != '1c') or \
-            not all(c in string.hexdigits for c in sig[2:]):
-            raise forms.ValidationError(_('Invalid signature'))
+
+        # if len(sig) != 132 or (sig[130:] != '1b' and sig[130:] != '1c') or \
+        #     not all(c in string.hexdigits for c in sig[2:]):
+        #     raise forms.ValidationError(_('Invalid signature'))
         return sig
 
 

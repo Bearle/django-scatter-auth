@@ -22,18 +22,18 @@ function loginWithSignature(address, signature, login_url, onLoginRequestError, 
             // Success!
             var resp = JSON.parse(request.responseText);
             if (resp.success) {
-                if (typeof onLoginSuccess == 'function') {
+                if (typeof onLoginSuccess === 'function') {
                     onLoginSuccess(resp);
                 }
             } else {
-                if (typeof onLoginFail == 'function') {
+                if (typeof onLoginFail === 'function') {
                     onLoginFail(resp);
                 }
             }
         } else {
             // We reached our target server, but it returned an error
             console.log("Autologin failed - request status " + request.status);
-            if (typeof onLoginRequestError == 'function') {
+            if (typeof onLoginRequestError === 'function') {
                 onLoginRequestError(request);
             }
         }
@@ -41,7 +41,7 @@ function loginWithSignature(address, signature, login_url, onLoginRequestError, 
 
     request.onerror = function () {
         console.log("Autologin failed - there was an error");
-        if (typeof onLoginRequestError == 'function') {
+        if (typeof onLoginRequestError === 'function') {
             onLoginRequestError(request);
         }
         // There was a connection error of some sort
@@ -61,8 +61,8 @@ function checkWeb3(callback) {
     });
 }
 
-function web3Login(login_url, onTokenRequestFail, onTokenSignFail, onTokenSignSuccess, // used in this function
-                   onLoginRequestError, onLoginFail, onLoginSuccess) {
+function scatterLogin(login_url, onTokenRequestFail, onTokenSignFail, onTokenSignSuccess, // used in this function
+                      onLoginRequestError, onLoginFail, onLoginSuccess) {
     // used in loginWithSignature
 
     // 1. Retrieve arbitrary login token from server
@@ -82,27 +82,32 @@ function web3Login(login_url, onTokenRequestFail, onTokenSignFail, onTokenSignSu
             var resp = JSON.parse(request.responseText);
             var token = resp.data;
             console.log("Token: " + token);
-            var msg = web3.toHex(token);
-            var from = web3.eth.accounts[0];
-            web3.personal.sign(msg, from, (err, result) => {
-                if (err) {
-                    if (typeof onTokenSignFail == 'function') {
-                        onTokenSignFail(err);
-                    }
-                    console.log("Failed signing message \n" + msg + "\n - " + err);
-                } else {
-                    console.log("Signed message: " + result);
-                    if (typeof onTokenSignSuccess == 'function') {
-                        onTokenSignSuccess(result);
-                    }
-                    loginWithSignature(from, result, login_url, onLoginRequestError, onLoginFail, onLoginSuccess);
+            var account = scatter.identity.accounts.find(function (account) {
+                return account.blockchain === 'eos'
+            });
+            scatter.getArbitrarySignature(scatter.identity.publicKey, token).then(result => {
+                // Authentication passed, you can also
+                // double validate the the public key on their
+                // identity has signed the returned `result` which will be
+                // your domain
+                console.log("Signed message: " + result);
+                if (typeof onTokenSignSuccess === 'function') {
+                    onTokenSignSuccess(result);
                 }
+                loginWithSignature(account.name, result, login_url, onLoginRequestError, onLoginFail, onLoginSuccess);
+
+            }).catch(error => {
+                if (typeof onTokenSignFail === 'function') {
+                    onTokenSignFail(err);
+                }
+                console.log("Failed signing message \n" + msg + "\n - " + err);
+                // Authentication Failed!
             });
 
         } else {
             // We reached our target server, but it returned an error
             console.log("Autologin failed - request status " + request.status);
-            if (typeof onTokenRequestFail == 'function') {
+            if (typeof onTokenRequestFail === 'function') {
                 onTokenRequestFail(request);
             }
         }

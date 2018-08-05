@@ -27,6 +27,8 @@ def get_redirect_url(request):
             url = settings.LOGIN_REDIRECT_URL
         return url
 
+
+@csrf_exempt
 @require_http_methods(["GET", "POST"])
 def login_api(request):
     if request.method == 'GET':
@@ -55,6 +57,7 @@ def login_api(request):
                     return JsonResponse({'success': False, 'error': error})
             else:
                 return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
+
 
 @csrf_exempt
 @require_http_methods(["POST"])
