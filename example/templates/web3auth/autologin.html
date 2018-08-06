@@ -17,7 +17,9 @@
       console.log('scatter loaded');
       if (scatter.identity) {
         console.log("Identity found");
-        scatterLogin(login_url, console.log, console.log, console.log, console.log, console.log, console.log);
+        scatterLogin(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
+          window.location.replace(resp.redirect_url);
+        });
         document.getElementById('container-text').innerHTML = "Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey
       } else {
         console.log('identity not found, have to signup')

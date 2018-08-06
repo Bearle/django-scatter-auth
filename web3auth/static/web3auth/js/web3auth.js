@@ -14,7 +14,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function loginWithSignature(address, signature, login_url, onLoginRequestError, onLoginFail, onLoginSuccess) {
+function loginWithSignature(pubkey, signature, address, login_url, onLoginRequestError, onLoginFail, onLoginSuccess) {
     var request = new XMLHttpRequest();
     request.open('POST', login_url, true);
     request.onload = function () {
@@ -48,7 +48,7 @@ function loginWithSignature(address, signature, login_url, onLoginRequestError, 
     };
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    var formData = 'address=' + address + '&signature=' + signature;
+    var formData = 'pubkey=' + pubkey + '&signature=' + signature + '&address=' + address;
     request.send(formData);
 }
 
@@ -94,7 +94,8 @@ function scatterLogin(login_url, onTokenRequestFail, onTokenSignFail, onTokenSig
                 if (typeof onTokenSignSuccess === 'function') {
                     onTokenSignSuccess(result);
                 }
-                loginWithSignature(account.name, result, login_url, onLoginRequestError, onLoginFail, onLoginSuccess);
+                loginWithSignature(scatter.identity.publicKey, result, account.name,
+                    login_url, onLoginRequestError, onLoginFail, onLoginSuccess);
 
             }).catch(error => {
                 if (typeof onTokenSignFail === 'function') {

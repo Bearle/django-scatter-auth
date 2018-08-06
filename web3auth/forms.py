@@ -8,20 +8,18 @@ from web3auth.settings import app_settings
 
 
 class LoginForm(forms.Form):
-    signature = forms.CharField(widget=forms.HiddenInput, max_length=132)
+    signature = forms.CharField(widget=forms.HiddenInput, max_length=101)
     address = forms.CharField(widget=forms.HiddenInput, max_length=12)
-
+    pubkey = forms.CharField(widget=forms.HiddenInput, max_length=53)
     def __init__(self, token, *args, **kwargs):
         self.token = token
         super(LoginForm, self).__init__(*args, **kwargs)
 
-    def clean_signature(self):
-        sig = self.cleaned_data['signature']
-
-        # if len(sig) != 132 or (sig[130:] != '1b' and sig[130:] != '1c') or \
-        #     not all(c in string.hexdigits for c in sig[2:]):
-        #     raise forms.ValidationError(_('Invalid signature'))
-        return sig
+    # def clean_signature(self):
+    #     sig = self.cleaned_data['signature']
+    #     if len(sig) != 101:
+    #         raise forms.ValidationError(_('Invalid signature'))
+    #     return sig
 
 
 # list(set()) here is to eliminate the possibility of double including the address field

@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model, backends
 
-from web3auth.utils import recover_to_addr
+from web3auth.utils import validate_signature
 from web3auth.settings import app_settings
 
 class Web3Backend(backends.ModelBackend):
-    def authenticate(self, request, address=None, token=None, signature=None):
+    def authenticate(self, request, address=None, pubkey=None, token=None, signature=None):
         """
 
         :type signature: str
@@ -12,11 +12,7 @@ class Web3Backend(backends.ModelBackend):
         # get user model
         User = get_user_model()
         # check if the address the user has provided matches the signature
-        try:
-            address_verify = recover_to_addr(token, signature)
-        except:
-            return None
-        if not address == address_verify:
+        if not validate_signature(msg=token, sig=signature, pubkey=pubkey):
             return None
         else:
             # get address field for the user model

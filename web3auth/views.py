@@ -8,7 +8,6 @@ from django.conf import settings
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse, HttpResponseBadRequest
 from web3auth.forms import LoginForm, SignupForm
-from web3auth.utils import recover_to_addr
 from django.utils.translation import ugettext_lazy as _
 from web3auth.settings import app_settings
 from django.views.decorators.csrf import csrf_exempt
@@ -44,9 +43,14 @@ def login_api(request):
         else:
             form = LoginForm(token, request.POST)
             if form.is_valid():
-                signature, address = form.cleaned_data.get("signature"), form.cleaned_data.get("address")
+                signature, pubkey, address = form.cleaned_data.get("signature"), form.cleaned_data.get("pubkey"), \
+                                             form.cleaned_data.get("address")
+                if not signature or not pubkey or not address:
+                    return JsonResponse({'error': _(
+                        "Please pass signature, pubkey and address (account name)"),
+                        'success': False})
                 del request.session['login_token']
-                user = authenticate(request, token=token, address=address, signature=signature)
+                user = authenticate(request, address=address, token=token, pubkey=pubkey, signature=signature)
                 if user:
                     login(request, user, 'web3auth.backend.Web3Backend')
 
