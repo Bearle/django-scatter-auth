@@ -1,29 +1,29 @@
 =============================
-Django-Web3-Auth
+django-scatter-auth
 =============================
 
-.. image:: https://badge.fury.io/py/django-web3-auth.svg
-    :target: https://badge.fury.io/py/django-web3-auth
+.. image:: https://badge.fury.io/py/django-scatter-auth.svg
+    :target: https://badge.fury.io/py/django-scatter-auth
 
-.. image:: https://travis-ci.org/Bearle/django-web3-auth.svg?branch=master
-    :target: https://travis-ci.org/Bearle/django-web3-auth
+.. image:: https://travis-ci.org/Bearle/django-scatter-auth.svg?branch=master
+    :target: https://travis-ci.org/Bearle/django-scatter-auth
 
-.. image:: https://codecov.io/gh/Bearle/django-web3-auth/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/Bearle/django-web3-auth
+.. image:: https://codecov.io/gh/Bearle/django-scatter-auth/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/Bearle/django-scatter-auth
 
-django-web3-auth is a pluggable Django app that enables login/signup via an Ethereum wallet (a la CryptoKitties). The user authenticates themselves by digitally signing the session key with their wallet's private key.
+django-scatter-auth is a pluggable Django app that enables login/signup via an Ethereum wallet (a la CryptoKitties). The user authenticates themselves by digitally signing the session key with their wallet's private key.
 
-.. image:: https://github.com/Bearle/django-web3-auth/blob/master/docs/_static/web3_auth_test.gif?raw=true
+.. image:: https://github.com/Bearle/django-scatter-auth/blob/master/docs/_static/web3_auth_test.gif?raw=true
 
 Documentation
 -------------
 
-The full documentation is at https://django-web3-auth.readthedocs.io.
+The full documentation is at https://django-scatter-auth.readthedocs.io.
 
 Example project
 ---------------
 
-https://github.com/Bearle/django-web3-auth/tree/master/example
+https://github.com/Bearle/django-scatter-auth/tree/master/example
 
 You can check out our example project by cloning the repo and heading into example/ directory.
 There is a README file for you to check, also.
@@ -43,9 +43,9 @@ Features
 
 Quickstart
 ----------
-Install Django-Web3-Auth with pip::
+Install django-scatter-auth with pip::
 
-    pip install django-web3-auth
+    pip install django-scatter-auth
 
 Add it to your `INSTALLED_APPS`:
 
@@ -53,16 +53,16 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'web3auth.apps.Web3AuthConfig',
+        'scatterauth.apps.scatterauthConfig',
         ...
     )
-Set `'web3auth.backend.Web3Backend'` as your authentication backend:
+Set `'scatterauth.backend.Web3Backend'` as your authentication backend:
 
 .. code-block:: python
 
     AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'web3auth.backend.Web3Backend'
+    'scatterauth.backend.Web3Backend'
     ]
 Set your User model's field to use as ETH address provider:
 
@@ -77,16 +77,16 @@ And if you have some other fields you want to be in the SignupForm, add them too
     SCATTERAUTH_USER_SIGNUP_FIELDS = ['email',]
 
 
-Add Django-Web3-Auth's URL patterns:
+Add django-scatter-auth's URL patterns:
 
 .. code-block:: python
 
-    from web3auth import urls as web3auth_urls
+    from scatterauth import urls as scatterauth_urls
 
 
     urlpatterns = [
         ...
-        url(r'^', include(web3auth_urls)),
+        url(r'^', include(scatterauth_urls)),
         ...
     ]
 
@@ -95,7 +95,7 @@ Add some javascript to handle login:
 
 .. code-block:: html
 
-    <script src="{% static 'web3auth/js/web3auth.js' %}"></script>
+    <script src="{% static 'scatterauth/js/scatterauth.js' %}"></script>
 
 
 .. code-block:: javascript
@@ -106,7 +106,7 @@ Add some javascript to handle login:
           if (!loggedIn) {
             alert("Please unlock your web3 provider (probably, Metamask)")
           } else {
-            var login_url = '{% url 'web3auth_login_api' %}';
+            var login_url = '{% url 'scatterauth_login_api' %}';
             web3Login(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
               console.log(resp);
               window.location.replace(resp.redirect_url);
@@ -119,9 +119,9 @@ Add some javascript to handle login:
       }
     }
 
-You can access signup using {% url 'web3auth_signup' %}.
+You can access signup using {% url 'scatterauth_signup' %}.
 
-If you have any questions left, head to the example app https://github.com/Bearle/django-web3-auth/tree/master/example
+If you have any questions left, head to the example app https://github.com/Bearle/django-scatter-auth/tree/master/example
 
 
 

@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'web3auth',
+    'scatterauth',
 
     # if your app has other dependencies that need to be added to the site
     # they should be added here
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'web3auth.backend.Web3Backend'
+    'scatterauth.backend.Web3Backend'
 ]
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

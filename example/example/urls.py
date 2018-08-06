@@ -38,5 +38,5 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/login')),
     url(r'^login/', login, name='login'),
     url(r'^auto_login/', auto_login, name='autologin'),
-    url(r'', include('web3auth.urls')),
+    url(r'', include('scatterauth.urls')),
 ]

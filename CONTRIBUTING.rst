@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/Bearle/django-web3-auth/issues.
+Report bugs at https://github.com/Bearle/django-scatter-auth/issues.
 
 If you are reporting a bug, please include:
 
@@ -36,14 +36,14 @@ is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Django-Web3-Auth could always use more documentation, whether as part of the
-official Django-Web3-Auth docs, in docstrings, or even on the web in blog posts,
+Django-scatter-auth could always use more documentation, whether as part of the
+official Django-scatter-auth docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/Bearle/django-web3-auth/issues.
+The best way to send feedback is to file an issue at https://github.com/Bearle/django-scatter-auth/issues.
 
 If you are proposing a feature:
 
@@ -55,17 +55,17 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `django-web3-auth` for local development.
+Ready to contribute? Here's how to set up `django-scatter-auth` for local development.
 
-1. Fork the `django-web3-auth` repo on GitHub.
+1. Fork the `django-scatter-auth` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/django-web3-auth.git
+    $ git clone git@github.com:your_name_here/django-scatter-auth.git
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
-    $ mkvirtualenv django-web3-auth
-    $ cd django-web3-auth/
+    $ mkvirtualenv django-scatter-auth
+    $ cd django-scatter-auth/
     $ python setup.py develop
 
 4. Create a branch for local development::
@@ -101,7 +101,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 2.6, 2.7, and 3.3, and for PyPy. Check
-   https://travis-ci.org/Bearle/django-web3-auth/pull_requests
+   https://travis-ci.org/Bearle/django-scatter-auth/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 Tips

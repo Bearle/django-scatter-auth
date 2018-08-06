@@ -1,4 +1,4 @@
-Example Project for scatter-auth
+Example Project for django-scatter-auth
 
 This example is provided as a convenience feature to allow potential users to try the app straight from the app repo without having to create a django project.
 

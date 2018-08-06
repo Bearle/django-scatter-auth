@@ -7,7 +7,7 @@ Development Lead
 
 * Denis Bobrov <tech@bearle.ru>
 
-Contributors
+Special Thanks
 ------------
 
-* Alexander Tereshkin <atereshkin@y-node.com>
+* Nathan James <scatter.eos@gmail.com>

@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import authenticate, get_user_model
 
 from django.utils.translation import ugettext_lazy as _
-from web3auth.settings import app_settings
+from scatterauth.settings import app_settings
 
 
 class LoginForm(forms.Form):

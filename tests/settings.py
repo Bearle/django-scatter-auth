@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sites",
-    "web3auth",
+    "scatterauth",
 ]
 
 SITE_ID = 1

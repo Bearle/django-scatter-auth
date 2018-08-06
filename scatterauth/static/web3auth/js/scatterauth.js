@@ -52,22 +52,13 @@ function loginWithSignature(pubkey, signature, address, login_url, onLoginReques
     request.send(formData);
 }
 
-function checkWeb3(callback) {
-    web3.eth.getAccounts((err, accounts) => { // Check for wallet being locked
-        if (err) {
-            throw err;
-        }
-        callback(accounts.length !== 0);
-    });
-}
-
 function scatterLogin(login_url, onTokenRequestFail, onTokenSignFail, onTokenSignSuccess, // used in this function
                       onLoginRequestError, onLoginFail, onLoginSuccess) {
     // used in loginWithSignature
 
     // 1. Retrieve arbitrary login token from server
-    // 2. Sign it using web3
-    // 3. Send signed message & your eth address to server
+    // 2. Sign it using scatter
+    // 3. Send signed message & your eos account name & public key to server
     // 4. If server validates that you signature is valid
     // 4.1 The user with an according eth address is found - you are logged in
     // 4.2 The user with an according eth address is NOT found - you are redirected to signup page

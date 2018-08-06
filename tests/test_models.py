@@ -10,7 +10,7 @@ Tests for `django-web3-auth` models module.
 
 from django.test import TestCase
 
-from web3auth import models
+from scatterauth import models
 
 
 class TestWeb3auth(TestCase):

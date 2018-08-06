@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, backends
 
-from web3auth.utils import validate_signature
-from web3auth.settings import app_settings
+from scatterauth.utils import validate_signature
+from scatterauth.settings import app_settings
 
 class Web3Backend(backends.ModelBackend):
     def authenticate(self, request, address=None, pubkey=None, token=None, signature=None):

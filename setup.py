@@ -11,7 +11,7 @@ except ImportError:
 
 
 def get_version(*file_paths):
-    """Retrieves the version from web3auth/__init__.py"""
+    """Retrieves the version from scatterauth/__init__.py"""
     filename = os.path.join(os.path.dirname(__file__), *file_paths)
     version_file = open(filename).read()
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
@@ -21,7 +21,7 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-version = get_version("web3auth", "__init__.py")
+version = get_version("scatterauth", "__init__.py")
 
 if sys.argv[-1] == 'publish':
     try:
@@ -47,7 +47,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 setup(
     name='django-scatter-auth',
     version=version,
-    description="""django-web3-auth is a pluggable Django app that enables login/signup via an Ethereum wallet (a la CryptoKitties). The user authenticates themselves by digitally signing the session key with their wallet's private key.""",
+    description="""django-scatter-auth is a pluggable Django app that enables login/signup via Scatter (EOS). The user authenticates himself by digitally signing the session key with their wallet's private key.""",
     long_description=readme + '\n\n' + history,
     author='Bearle',
     author_email='tech@bearle.ru',
@@ -67,8 +67,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',

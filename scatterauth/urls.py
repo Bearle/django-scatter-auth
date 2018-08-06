@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from web3auth import views
+from scatterauth import views
 
 urlpatterns = [
     url(r'^login_api/$', views.login_api, name='web3auth_login_api'),

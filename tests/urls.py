@@ -5,5 +5,5 @@ from django.conf.urls import url, include
 
 
 urlpatterns = [
-    url(r'^', include('web3auth.urls', namespace='web3auth')),
+    url(r'^', include('scatterauth.urls', namespace='scatterauth')),
 ]
