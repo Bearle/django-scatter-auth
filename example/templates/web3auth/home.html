@@ -1,0 +1,26 @@
+{% extends 'web3auth/base.html' %}
+{% block content %}
+  <div class="row m-t-2">
+    <div class="container">
+
+      <h4 class="col-md-12 text-center" style="margin-top: 15px" id='container-text'>Click at any menu item to interact
+        with contract</h4>
+      <h5 class="text-center" style="color: #bea05c" id="scatter-status">Scatter not installed</h5>
+    </div>
+  </div>
+{% endblock content %}
+{% block javascript %}
+  {{ block.super }}
+  <script>
+    document.addEventListener('scatterLoaded', scatterExtension => {
+      console.log('scatter loaded');
+      document.getElementById('scatter-status').innerHTML = "Scatter installed!";
+      if (scatter.identity) {
+        console.log("Identity found");
+        document.getElementById('container-text').innerHTML = "Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey
+      } else {
+        console.log('identity not found, have to signup')
+      }
+    });
+  </script>
+{% endblock javascript %}

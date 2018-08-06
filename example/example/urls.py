@@ -16,26 +16,26 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.shortcuts import render, redirect
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
 
 def login(request):
     if not request.user.is_authenticated:
         return render(request, 'web3auth/login.html')
     else:
-        return redirect('/admin/login')
+        return redirect('/')
 
 
 def auto_login(request):
     if not request.user.is_authenticated:
         return render(request, 'web3auth/autologin.html')
     else:
-        return redirect('/admin/login')
+        return redirect('/')
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', RedirectView.as_view(url='/login')),
+    url(r'^$', TemplateView.as_view(template_name='web3auth/home.html')),
     url(r'^login/', login, name='login'),
     url(r'^auto_login/', auto_login, name='autologin'),
     url(r'', include('scatterauth.urls')),
