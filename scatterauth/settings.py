@@ -24,5 +24,13 @@ class AppSettings(object):
         """
         return getattr(django_settings, "SCATTERAUTH_SIGNUP_ENABLED", True)
 
+    @property
+    def SCATTERAUTH_DOMAIN(self):
+        """
+        Determines what domain to use for signature verification
+        (see https://get-scatter.com/docs/dev/api-authenticate)
+        """
+        return getattr(django_settings, "SCATTERAUTH_DOMAIN", '')
+
 
 app_settings = AppSettings()

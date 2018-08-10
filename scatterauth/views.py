@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from scatterauth.settings import app_settings
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.http.request import split_domain_port
 
 
 def get_redirect_url(request):
@@ -27,39 +28,32 @@ def get_redirect_url(request):
         return url
 
 
-@csrf_exempt
-@require_http_methods(["GET", "POST"])
-def login_api(request):
-    if request.method == 'GET':
-        token = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for i in range(32))
-        request.session['login_token'] = token
-        return JsonResponse({'data': token, 'success': True})
-    else:
-        token = request.session.get('login_token')
-        if not token:
-            return JsonResponse({'error': _(
-                "No login token in session, please request token again by sending GET request to this url"),
-                'success': False})
-        else:
-            form = LoginForm(token, request.POST)
-            if form.is_valid():
-                signature, pubkey = form.cleaned_data.get("signature"), form.cleaned_data.get("pubkey")
-                if not signature or not pubkey:
-                    return JsonResponse({'error': _(
-                        "Please pass signature and public key"),
-                        'success': False})
-                del request.session['login_token']
-                user = authenticate(request, msg=token, pubkey=pubkey, signature=signature)
-                if user:
-                    login(request, user, 'scatterauth.backend.ScatterAuthBackend')
 
-                    return JsonResponse({'success': True, 'redirect_url': get_redirect_url(request)})
-                else:
-                    error = _("Can't find a user for the provided signature with public key {pubkey}").format(
-                        pubkey=pubkey)
-                    return JsonResponse({'success': False, 'error': error})
-            else:
-                return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
+@require_http_methods(["POST"])
+def login_api(request):
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        signature, pubkey = form.cleaned_data.get("signature"), form.cleaned_data.get("pubkey")
+        if not signature or not pubkey:
+            return JsonResponse({'error': _(
+                "Please pass signature and public key"),
+                'success': False})
+        if app_settings.SCATTERAUTH_DOMAIN == '':
+            host = request.get_host()
+            domain, port = split_domain_port(host)
+            msg = domain
+        else:
+            msg = app_settings.SCATTERAUTH_DOMAIN
+        user = authenticate(request, msg=msg, pubkey=pubkey, signature=signature)
+        if user:
+            login(request, user, 'scatterauth.backend.ScatterAuthBackend')
+            return JsonResponse({'success': True, 'redirect_url': get_redirect_url(request)})
+        else:
+            error = _("Can't find a user for the provided signature with public key {pubkey}").format(
+                pubkey=pubkey)
+            return JsonResponse({'success': False, 'error': error})
+    else:
+        return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
 
 
 @csrf_exempt
