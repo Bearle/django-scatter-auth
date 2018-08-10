@@ -7,7 +7,7 @@ and 2 views for Signup (one with JSON responses, and the other - using Django Fo
 
 It also has 2 forms, SignupForm (rendered) and LoginForm (uses hidden inputs, used to validate data only).
 
-Possible configuration includes customizable address field (``SCATTERAUTH_USER_ADDRESS_FIELD``), additional fields for User model (``SCATTERAUTH_USER_SIGNUP_FIELDS``) and on/off switch for registration (``SCATTERAUTH_SIGNUP_ENABLED``).
+Possible configuration includes customizable address field (``SCATTERAUTH_USER_PUBKEY_FIELD``), additional fields for User model (``SCATTERAUTH_USER_SIGNUP_FIELDS``) and on/off switch for registration (``SCATTERAUTH_SIGNUP_ENABLED``).
 You can read more on that in the Configuration section.
 
 Sign up
@@ -16,7 +16,7 @@ Sign up
 The signup process is as follows (signup_view example, signup_api is similar):
 
 1. User heads to the signup URL (``{% url 'web3auth_signup' %}``)
-2. The signup view is rendered with a ``SignupForm`` which includes ``SCATTERAUTH_USER_SIGNUP_FIELDS`` and ``SCATTERAUTH_USER_ADDRESS_FIELD``
+2. The signup view is rendered with a ``SignupForm`` which includes ``SCATTERAUTH_USER_SIGNUP_FIELDS`` and ``SCATTERAUTH_USER_PUBKEY_FIELD``
 3. The user enters required data and clicks the submit button and the POST request fires to the same URL with ``signup_view``
 4. Signup view does the following:
     4.1. Creates an instance of a ``SignupForm``.
@@ -24,7 +24,7 @@ The signup process is as follows (signup_view example, signup_api is similar):
     4.3. If the registration is closed or form has errors, returns form with errors
     4.4 If the form is valid, saves the user without saving to DB
     4.5. Sets the user address from the form, saves it to DB
-    4.6. Logins the user using ``web3auth.backend.Web3Backend``
+    4.6. Logins the user using ``web3auth.backend.ScatterAuthBackend``
     4.7. Redirects the user to ``LOGIN_REDIRECT_URL`` or 'next' in get or post params
 5. The user is signed up and logged in
 

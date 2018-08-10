@@ -56,19 +56,19 @@ Add it to your `INSTALLED_APPS`:
         'scatterauth.apps.scatterauthConfig',
         ...
     )
-Set `'scatterauth.backend.Web3Backend'` as your authentication backend:
+Set `'scatterauth.backend.ScatterAuthBackend'` as your authentication backend:
 
 .. code-block:: python
 
     AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'scatterauth.backend.Web3Backend'
+    'scatterauth.backend.ScatterAuthBackend'
     ]
 Set your User model's field to use as ETH address provider:
 
 .. code-block:: python
 
-    SCATTERAUTH_USER_ADDRESS_FIELD = 'username'
+    SCATTERAUTH_USER_PUBKEY_FIELD = 'username'
 
 And if you have some other fields you want to be in the SignupForm, add them too:
 
@@ -128,7 +128,7 @@ If you have any questions left, head to the example app https://github.com/Bearl
 Important details and FAQ
 -------------------------
 
-1. *If you set a custom address field (SCATTERAUTH_USER_ADDRESS_FIELD), it MUST be unique (unique=True).*
+1. *If you set a custom address field (SCATTERAUTH_USER_PUBKEY_FIELD), it MUST be unique (unique=True).*
 
 This is needed because if it's not, the user can register a new account with the same address as the other one,
 meaning that the user can now login as any of those accounts (sometimes being the wrong one).

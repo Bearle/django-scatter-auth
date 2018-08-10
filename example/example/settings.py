@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'scatterauth.backend.Web3Backend'
+    'scatterauth.backend.ScatterAuthBackend'
 ]
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

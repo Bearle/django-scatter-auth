@@ -9,7 +9,6 @@ from scatterauth.settings import app_settings
 
 class LoginForm(forms.Form):
     signature = forms.CharField(widget=forms.HiddenInput, max_length=101)
-    address = forms.CharField(widget=forms.HiddenInput, max_length=12)
     pubkey = forms.CharField(widget=forms.HiddenInput, max_length=53)
     def __init__(self, token, *args, **kwargs):
         self.token = token
@@ -23,7 +22,7 @@ class LoginForm(forms.Form):
 
 
 # list(set()) here is to eliminate the possibility of double including the address field
-signup_fields = list(set(app_settings.SCATTERAUTH_USER_SIGNUP_FIELDS + [app_settings.SCATTERAUTH_USER_ADDRESS_FIELD]))
+signup_fields = list(set(app_settings.SCATTERAUTH_USER_SIGNUP_FIELDS + [app_settings.SCATTERAUTH_USER_PUBKEY_FIELD]))
 
 
 class SignupForm(forms.ModelForm):
@@ -36,11 +35,11 @@ class SignupForm(forms.ModelForm):
         # and if the user loses private key he can get 'reset' password link to email
         if 'email' in app_settings.SCATTERAUTH_USER_SIGNUP_FIELDS:
             self.fields['email'].required = True
-        self.fields[app_settings.SCATTERAUTH_USER_ADDRESS_FIELD].required = True
+        self.fields[app_settings.SCATTERAUTH_USER_PUBKEY_FIELD].required = True
 
     def clean_address_field(self):
-        # validate_eth_address(self.cleaned_data[app_settings.SCATTERAUTH_USER_ADDRESS_FIELD])
-        return self.cleaned_data[app_settings.SCATTERAUTH_USER_ADDRESS_FIELD].lower()
+        # validate_eth_address(self.cleaned_data[app_settings.SCATTERAUTH_USER_PUBKEY_FIELD])
+        return self.cleaned_data[app_settings.SCATTERAUTH_USER_PUBKEY_FIELD]
 
     class Meta:
         model = get_user_model()
@@ -48,4 +47,4 @@ class SignupForm(forms.ModelForm):
 
 
 # hack to set the method for cleaning address field
-setattr(SignupForm, 'clean_' + app_settings.SCATTERAUTH_USER_ADDRESS_FIELD, SignupForm.clean_address_field)
+setattr(SignupForm, 'clean_' + app_settings.SCATTERAUTH_USER_PUBKEY_FIELD, SignupForm.clean_address_field)

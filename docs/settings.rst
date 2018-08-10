@@ -4,7 +4,7 @@ Settings
 
 You should specify settings in your settings.py like this::
 
-    SCATTERAUTH_USER_ADDRESS_FIELD = 'address'
+    SCATTERAUTH_USER_PUBKEY_FIELD = 'address'
     SCATTERAUTH_USER_SIGNUP_FIELDS = ['email', 'username']
 
 
@@ -33,5 +33,5 @@ Here's a list of available settings:
 +--------------------------------+------------+-------------------------------------------------------------------------+
 | SCATTERAUTH_USER_SIGNUP_FIELDS    | ['email']  | Specifies field to be used in signup form for a new User model          |
 +--------------------------------+------------+-------------------------------------------------------------------------+
-| SCATTERAUTH_USER_ADDRESS_FIELD    | 'username' | Field on the User model, which has ethereum address to check against.   |
+| SCATTERAUTH_USER_PUBKEY_FIELD    | 'username' | Field on the User model, which has ethereum address to check against.   |
 +--------------------------------+------------+-------------------------------------------------------------------------+

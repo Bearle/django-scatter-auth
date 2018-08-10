@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class Web3AuthConfig(AppConfig):
+class ScatterAuthConfig(AppConfig):
     name = 'scatterauth'

@@ -3,12 +3,12 @@ from django.conf import settings as django_settings
 
 class AppSettings(object):
     @property
-    def SCATTERAUTH_USER_ADDRESS_FIELD(self):
+    def SCATTERAUTH_USER_PUBKEY_FIELD(self):
         """
         Field on the User model, which has ethereum address to check against.
         This allows you to store it somewhere in arbitrary place other than just username.
         """
-        return getattr(django_settings, 'SCATTERAUTH_USER_ADDRESS_FIELD', 'username')
+        return getattr(django_settings, 'SCATTERAUTH_USER_PUBKEY_FIELD', 'username')
 
     @property
     def SCATTERAUTH_USER_SIGNUP_FIELDS(self):

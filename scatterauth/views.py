@@ -43,21 +43,20 @@ def login_api(request):
         else:
             form = LoginForm(token, request.POST)
             if form.is_valid():
-                signature, pubkey, address = form.cleaned_data.get("signature"), form.cleaned_data.get("pubkey"), \
-                                             form.cleaned_data.get("address")
-                if not signature or not pubkey or not address:
+                signature, pubkey = form.cleaned_data.get("signature"), form.cleaned_data.get("pubkey")
+                if not signature or not pubkey:
                     return JsonResponse({'error': _(
-                        "Please pass signature, pubkey and address (account name)"),
+                        "Please pass signature and public key"),
                         'success': False})
                 del request.session['login_token']
-                user = authenticate(request, address=address, token=token, pubkey=pubkey, signature=signature)
+                user = authenticate(request, msg=token, pubkey=pubkey, signature=signature)
                 if user:
-                    login(request, user, 'scatterauth.backend.Web3Backend')
+                    login(request, user, 'scatterauth.backend.ScatterAuthBackend')
 
                     return JsonResponse({'success': True, 'redirect_url': get_redirect_url(request)})
                 else:
-                    error = _("Can't find a user for the provided signature with address {address}").format(
-                        address=address)
+                    error = _("Can't find a user for the provided signature with public key {pubkey}").format(
+                        pubkey=pubkey)
                     return JsonResponse({'success': False, 'error': error})
             else:
                 return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
@@ -71,10 +70,10 @@ def signup_api(request):
     form = SignupForm(request.POST)
     if form.is_valid():
         user = form.save(commit=False)
-        addr_field = app_settings.SCATTERAUTH_USER_ADDRESS_FIELD
-        setattr(user, addr_field, form.cleaned_data[addr_field])
+        pubkey_field = app_settings.SCATTERAUTH_USER_PUBKEY_FIELD
+        setattr(user, pubkey_field, form.cleaned_data[pubkey_field])
         user.save()
-        login(request, user, 'scatterauth.backend.Web3Backend')
+        login(request, user, 'scatterauth.backend.ScatterAuthBackend')
         return JsonResponse({'success': True, 'redirect_url': get_redirect_url(request)})
     else:
         return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
@@ -88,7 +87,7 @@ def signup_view(request, template_name='scatterauth/signup.html'):
     3. If the registration is closed or form has errors, returns form with errors
     4. If the form is valid, saves the user without saving to DB
     5. Sets the user address from the form, saves it to DB
-    6. Logins the user using scatterauth.backend.Web3Backend
+    6. Logins the user using scatterauth.backend.ScatterAuthBackend
     7. Redirects the user to LOGIN_REDIRECT_URL or 'next' in get or post params
     :param request: Django request
     :param template_name: Template to render
@@ -102,10 +101,10 @@ def signup_view(request, template_name='scatterauth/signup.html'):
             form = SignupForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
-                addr_field = app_settings.SCATTERAUTH_USER_ADDRESS_FIELD
-                setattr(user, addr_field, form.cleaned_data[addr_field])
+                pubkey_field = app_settings.SCATTERAUTH_USER_PUBKEY_FIELD
+                setattr(user, pubkey_field, form.cleaned_data[pubkey_field])
                 user.save()
-                login(request, user, 'scatterauth.backend.Web3Backend')
+                login(request, user, 'scatterauth.backend.ScatterAuthBackend')
                 return redirect(get_redirect_url(request))
     return render(request,
                   template_name,

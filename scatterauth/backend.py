@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model, backends
 
-from scatterauth.utils import validate_signature
+from scatterauth.utils import validate_signature, InvalidSignatureException
 from scatterauth.settings import app_settings
 
-class Web3Backend(backends.ModelBackend):
-    def authenticate(self, request, address=None, pubkey=None, token=None, signature=None):
+class ScatterAuthBackend(backends.ModelBackend):
+    def authenticate(self, request, pubkey=None, msg=None, signature=None):
         """
 
         :type signature: str
@@ -12,13 +12,18 @@ class Web3Backend(backends.ModelBackend):
         # get user model
         User = get_user_model()
         # check if the address the user has provided matches the signature
-        if not validate_signature(msg=token, sig=signature, pubkey=pubkey):
+        try:
+            is_valid = validate_signature(msg=msg, sig=signature, pubkey=pubkey)
+        except InvalidSignatureException as e:
+            return None
+
+        if not is_valid:
             return None
         else:
-            # get address field for the user model
-                address_field = app_settings.SCATTERAUTH_USER_ADDRESS_FIELD
+            # get pubkey field for the user model
+                pubkey_field = app_settings.SCATTERAUTH_USER_PUBKEY_FIELD
                 kwargs = {
-                    address_field+"__iexact": address
+                    pubkey_field+"__iexact": pubkey
                 }
                 # try to get user with provided data
                 user = User.objects.filter(**kwargs).first()
