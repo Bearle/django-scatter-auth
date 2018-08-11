@@ -10,7 +10,7 @@
 {% block javascript %}
   {{ block.super }}
   <script>
-    var login_url = '{% url 'web3auth_login_api' %}';
+    var login_url = '{% url 'scatterauth_login_api' %}';
     document.addEventListener('scatterLoaded', scatterExtension => {
       console.log('scatter loaded');
       if (scatter.identity) {

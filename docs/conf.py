@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django-Web3-Auth'
+project = u'Django-Scatter-Auth'
 copyright = u'2018, Denis Bobrov'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -183,7 +183,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'django-web3-authdoc'
+htmlhelp_basename = 'django-scatter-authdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -202,7 +202,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-web3-auth.tex', u'Django-Web3-Auth Documentation',
+  ('index', 'django-scatter-auth.tex', u'Django-Scatter-Auth Documentation',
    u'Denis Bobrov', 'manual'),
 ]
 
@@ -232,7 +232,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-web3-auth', u'Django-Web3-Auth Documentation',
+    ('index', 'django-scatter-auth', u'Django-Scatter-Auth Documentation',
      [u'Denis Bobrov'], 1)
 ]
 
@@ -246,8 +246,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'django-web3-auth', u'Django-Web3-Auth Documentation',
-   u'Denis Bobrov', 'django-web3-auth', 'One line description of project.',
+  ('index', 'django-scatter-auth', u'Django-Scatter-Auth Documentation',
+   u'Denis Bobrov', 'django-scatter-auth', 'One line description of project.',
    'Miscellaneous'),
 ]
 
