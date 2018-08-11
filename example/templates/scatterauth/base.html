@@ -37,19 +37,23 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-       <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'autologin' %}">Autologin</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'web3auth_signup' %}">Signup</a>
-        </li>
         {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link">Logged in as {{ request.user.username }}</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}?next=/">Sign out</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Logged in as {{ request.user.username }}</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'autologin' %}">Autologin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'web3auth_signup' %}">Signup</a>
+          </li>
         {% endif %}
       </ul>
     </div>
@@ -90,24 +94,6 @@
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
-  <script>
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) == (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-
-  </script>
   <!-- Your stuff: Third-party javascript libraries go here -->
   <script src="{% static 'scatterauth/js/scatterauth.js' %}"></script>
 

@@ -11,7 +11,9 @@
 {% block javascript %}
   {{ block.super }}
   <script>
-    const signup = '{% url 'web3auth_signup_api' %}';
+
+    // Custom network example
+    /*
     const CHAIN_ID = '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca';
     const CHAIN_PROTOCOL = 'http';
     const CHAIN_HOST = '193.93.219.219';
@@ -24,67 +26,9 @@
       port: CHAIN_PORT,
       chainId: CHAIN_ID
     };
-
-    function signupWithData(username, email, signup_url, onSignupRequestError, onSignupSuccess, onSignupFail) {
-      var request = new XMLHttpRequest();
-      request.open('POST', signup_url, true);
-      request.onload = function () {
-        if (request.status >= 200 && request.status < 400) {
-          // Success!
-          var resp = JSON.parse(request.responseText);
-          if (resp.success) {
-            if (typeof onSignupSuccess === 'function') {
-              onSignupSuccess(resp);
-            }
-          } else {
-            if (typeof onSignupFail === 'function') {
-              onSignupFail(resp);
-            }
-          }
-        } else {
-          // We reached our target server, but it returned an error
-          console.log("Signup failed - request status " + request.status);
-          if (typeof onSignupRequestError === 'function') {
-            onSignupRequestError(request);
-          }
-        }
-      };
-
-      request.onerror = function () {
-        console.log("Signup failed - there was an error");
-        if (typeof onSignupRequestError === 'function') {
-          onSignupRequestError(request);
-        }
-        // There was a connection error of some sort
-      };
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-      var formData = 'username=' + username + '&email=' + email;
-      request.send(formData);
-    }
-
-    async function requestIdentity(onIdentityReject) {
-      await scatter.suggestNetwork(NETWORK);
-
-      let required_fields = {
-        personal: ['email'],
-        accounts: [NETWORK]
-      };
-
-      scatter.getIdentity(required_fields).then((identity) => {
-        var account = identity.accounts.find(function (account) {
-          return account.blockchain === 'eos'
-        });
-
-        signupWithData(account.name, scatter.identity.personal.email, signup, console.log, console.log, console.log)
-
-      }).catch(error => {
-        console.log("Identity or Network was rejected");
-        if (typeof onIdentityReject === 'function') {
-          onIdentityReject(error);
-        }
-      })
-    }
+    */
+    var signup = '{% url 'web3auth_signup_api' %}';
+    var fields = ['email'];
 
     document.addEventListener('scatterLoaded', scatterExtension => {
       console.log("Scatter installed!");
@@ -94,7 +38,7 @@
         console.log(scatter.identity);
         console.log("Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey);
       } else {
-        requestIdentity()
+        requestIdentity(fields, signup, null, console.log);
       }
     });
   </script>

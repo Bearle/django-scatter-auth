@@ -19,7 +19,6 @@ from django.shortcuts import render, redirect
 from django.views.generic import RedirectView, TemplateView
 
 
-
 def auto_login(request):
     if not request.user.is_authenticated:
         return render(request, 'scatterauth/autologin.html')
@@ -32,4 +31,6 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='scatterauth/home.html')),
     url(r'^auto_login/', auto_login, name='autologin'),
     url(r'', include('scatterauth.urls')),
+    url(r'django_auth/', include('django.contrib.auth.urls')),
+
 ]

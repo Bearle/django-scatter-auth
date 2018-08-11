@@ -17,12 +17,10 @@
       document.getElementById('scatter-status').innerHTML = "Scatter installed!";
       if (scatter.identity) {
         console.log("Identity found");
-        var account = scatter.identity.accounts.find(function (account) {
-                return account.blockchain === 'eos'
-            });
-        document.getElementById('container-text').innerHTML = "Welcome, " + account.name + '<br>Your public key: ' + scatter.identity.publicKey
+        document.getElementById('container-text').innerHTML = "Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey
       } else {
         console.log('identity not found, have to signup')
+        document.getElementById('container-text').innerHTML = "Please sign up first"
       }
     });
   </script>

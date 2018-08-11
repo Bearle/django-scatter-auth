@@ -64,4 +64,59 @@ function loginWithAuthenticate(login_url, onSignatureFail, onSignatureSuccess,
 }
 
 
+function signupWithData(username, email, signup_url, onSignupRequestError, onSignupSuccess, onSignupFail) {
+    var request = new XMLHttpRequest();
+    request.open('POST', signup_url, true);
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var resp = JSON.parse(request.responseText);
+            if (resp.success) {
+                if (typeof onSignupSuccess === 'function') {
+                    onSignupSuccess(resp);
+                }
+            } else {
+                if (typeof onSignupFail === 'function') {
+                    onSignupFail(resp);
+                }
+            }
+        } else {
+            // We reached our target server, but it returned an error
+            console.log("Signup failed - request status " + request.status);
+            if (typeof onSignupRequestError === 'function') {
+                onSignupRequestError(request);
+            }
+        }
+    };
 
+    request.onerror = function () {
+        console.log("Signup failed - there was an error");
+        if (typeof onSignupRequestError === 'function') {
+            onSignupRequestError(request);
+        }
+        // There was a connection error of some sort
+    };
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    var formData = 'username=' + username + '&email=' + email;
+    request.send(formData);
+}
+
+async function requestIdentity(requiredFields,signup_url, network, onIdentityReject) {
+    let identitySettings = {
+        personal: requiredFields,
+    };
+    if (network) {
+        await scatter.suggestNetwork(network);
+        identitySettings['accounts'] = network;
+    }
+
+    scatter.getIdentity(identitySettings).then((identity) => {
+        signupWithData(identity.publicKey, identity.personal.email, signup_url, console.log, console.log, console.log)
+    }).catch(error => {
+        console.log("Identity or Network was rejected");
+        if (typeof onIdentityReject === 'function') {
+            onIdentityReject(error);
+        }
+    })
+}

@@ -56,7 +56,7 @@ setup(
         'scatter_auth',
     ],
     include_package_data=True,
-    install_requires=['ethereum>=2.3.1', 'rlp==0.6.0','eth_utils>=1.0.3'],
+    install_requires=[],
     license="MIT",
     zip_safe=False,
     keywords='django-scatter-auth',
