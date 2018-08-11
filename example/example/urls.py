@@ -22,14 +22,14 @@ from django.views.generic import RedirectView, TemplateView
 
 def auto_login(request):
     if not request.user.is_authenticated:
-        return render(request, 'web3auth/autologin.html')
+        return render(request, 'scatterauth/autologin.html')
     else:
         return redirect('/')
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', TemplateView.as_view(template_name='web3auth/home.html')),
+    url(r'^$', TemplateView.as_view(template_name='scatterauth/home.html')),
     url(r'^auto_login/', auto_login, name='autologin'),
     url(r'', include('scatterauth.urls')),
 ]
