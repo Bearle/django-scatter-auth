@@ -1,9 +1,16 @@
+function jtrim(text) {
+    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+    return text == null ?
+        "" :
+        (text + "").replace(rtrim, "");
+}
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
+            var cookie = jtrim(cookies[i]);
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -102,7 +109,7 @@ function signupWithData(username, email, signup_url, onSignupRequestError, onSig
     request.send(formData);
 }
 
-async function requestIdentity(requiredFields,signup_url, network, onIdentityReject) {
+async function requestIdentity(requiredFields, signup_url, network, onIdentityReject) {
     let identitySettings = {
         personal: requiredFields,
     };
