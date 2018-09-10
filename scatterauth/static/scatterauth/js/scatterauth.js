@@ -71,7 +71,7 @@ function loginWithAuthenticate(login_url, onSignatureFail, onSignatureSuccess,
 }
 
 
-function signupWithData(username, email, signup_url, onSignupRequestError, onSignupSuccess, onSignupFail) {
+function signupWithData(pubkey, pubkeyFieldName, email, signup_url, onSignupRequestError, onSignupSuccess, onSignupFail) {
     var request = new XMLHttpRequest();
     request.open('POST', signup_url, true);
     request.onload = function () {
@@ -105,11 +105,11 @@ function signupWithData(username, email, signup_url, onSignupRequestError, onSig
     };
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    var formData = 'username=' + username + '&email=' + email;
+    var formData = pubkeyFieldName + '=' + pubkey + '&email=' + email;
     request.send(formData);
 }
 
-async function requestIdentity(requiredFields, signup_url, network, onIdentityReject) {
+async function requestIdentity(requiredFields, pubkeyFieldName, signup_url, network, onIdentityReject) {
     let identitySettings = {
         personal: requiredFields,
     };
@@ -119,7 +119,7 @@ async function requestIdentity(requiredFields, signup_url, network, onIdentityRe
     }
 
     scatter.getIdentity(identitySettings).then((identity) => {
-        signupWithData(identity.publicKey, identity.personal.email, signup_url, console.log, console.log, console.log)
+        signupWithData(identity.publicKey, pubkeyFieldName, identity.personal.email, signup_url, console.log, console.log, console.log)
     }).catch(error => {
         console.log("Identity or Network was rejected");
         if (typeof onIdentityReject === 'function') {

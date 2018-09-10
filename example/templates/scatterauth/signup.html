@@ -29,6 +29,7 @@
     */
     var signup = '{% url 'scatterauth_signup_api' %}';
     var fields = ['email'];
+    var public_key_field_name = 'username';
 
     document.addEventListener('scatterLoaded', scatterExtension => {
       console.log("Scatter installed!");
@@ -38,7 +39,7 @@
         console.log(scatter.identity);
         console.log("Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey);
       } else {
-        requestIdentity(fields, signup, null, console.log);
+        requestIdentity(fields,public_key_field_name, signup, null, console.log);
       }
     });
   </script>
