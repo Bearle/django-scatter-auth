@@ -56,6 +56,7 @@ Add it to your `INSTALLED_APPS`:
         'scatterauth.apps.scatterauthConfig',
         ...
     )
+
 Set `'scatterauth.backend.ScatterAuthBackend'` as your authentication backend:
 
 .. code-block:: python
@@ -64,6 +65,8 @@ Set `'scatterauth.backend.ScatterAuthBackend'` as your authentication backend:
     'django.contrib.auth.backends.ModelBackend',
     'scatterauth.backend.ScatterAuthBackend'
     ]
+
+
 Set your User model's field to use as public key storage:
 
 .. code-block:: python
