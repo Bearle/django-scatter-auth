@@ -21,9 +21,13 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function loginWithAuthenticate(login_url, onSignatureFail, onSignatureSuccess,
+async function loginWithAuthenticate(login_url, text_to_sign, onSignatureFail, onSignatureSuccess,
                                onLoginRequestError, onLoginFail, onLoginSuccess) {
-    scatter.authenticate().then(signature => {
+
+    scatter = ScatterJS.scatter;
+    await scatter.getArbitrarySignature(scatter.identity.publicKey, text_to_sign).then(
+      signature => {
+
         if (typeof onSignatureSuccess === 'function') {
             onSignatureSuccess(signature);
         }
@@ -110,6 +114,7 @@ function signupWithData(pubkey, pubkeyFieldName, email, signup_url, onSignupRequ
 }
 
 async function requestIdentity(requiredFields, pubkeyFieldName, signup_url, network, onIdentityReject) {
+    const scatter = ScatterJS.scatter;
     let identitySettings = {
         personal: requiredFields,
     };

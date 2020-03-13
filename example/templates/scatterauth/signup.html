@@ -6,6 +6,7 @@
       {{ form.as_p }}
       <button type="submit">Sign Up</button>
     </form>
+  <button onclick="signup2()">Sigup with scatter</button>
   </div>
 {% endblock content %}
 {% block javascript %}
@@ -27,20 +28,61 @@
       chainId: CHAIN_ID
     };
     */
-    var signup = '{% url 'scatterauth_signup_api' %}';
-    var fields = ['email'];
-    var public_key_field_name = 'username';
+    function signup2() {
+      const network = ScatterJS.Network.fromJson({
+        blockchain: 'eos',
+        chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
+        host: 'jungle2.cryptolions.io',
+        port: 80,
+        protocol: 'http'
+      });
 
-    document.addEventListener('scatterLoaded', scatterExtension => {
-      console.log("Scatter installed!");
-      if (scatter.identity) {
-        // login the user with api
-        console.log("Identity found");
-        console.log(scatter.identity);
-        console.log("Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey);
-      } else {
-        requestIdentity(fields,public_key_field_name, signup, null, console.log);
-      }
-    });
+      const signup_url = '{% url 'scatterauth_signup_api' %}';
+      const fields = [];
+      const public_key_field_name = 'username';
+
+      ScatterJS.connect('baf', network).then(
+        connected => {
+          if (connected) {
+            let scatter = ScatterJS.scatter;
+            console.log("Scatter installed!");
+            console.log(scatter.identity)
+            if (scatter.identity) {
+              // login the user with api
+              console.log("Identity found");
+              console.log(scatter.identity);
+              console.log("Welcome, " + scatter.identity.name + '<br>Your public key: ' + scatter.identity.publicKey);
+              signupWithData(
+                      scatter.identity.publicKey,
+                      public_key_field_name,
+                      null,
+                      signup_url,
+                      x=>console.log(x),
+                      response => {document.location = response.redirect_url},
+                      response => alert(JSON.stringify(response.error))
+              )
+            } else {
+              requestIdentity(
+                      fields,
+                      public_key_field_name,
+                      signup_url,
+                      network,
+                      console.log
+              )
+            }
+            console.log(x);
+            if(x.success){
+              document.location = result.redirect_url;
+            } else {
+              alert(x.error);
+            }
+          }
+          else {
+            alert('not connected');
+          }
+        }
+      );
+    }
+
   </script>
 {% endblock javascript %}

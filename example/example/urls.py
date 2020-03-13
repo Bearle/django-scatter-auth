@@ -20,8 +20,9 @@ from django.views.generic import RedirectView, TemplateView
 
 
 def auto_login(request):
+    from django.conf import settings
     if not request.user.is_authenticated:
-        return render(request, 'scatterauth/autologin.html')
+        return render(request, 'scatterauth/autologin.html', context={'settings': settings})
     else:
         return redirect('/')
 
