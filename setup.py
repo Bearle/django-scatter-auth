@@ -56,7 +56,7 @@ setup(
         'scatterauth',
     ],
     include_package_data=True,
-    install_requires=['fastecdsa==1.6.4', 'base58==1.0.0'],
+    install_requires=['fastecdsa==2.1.2', 'base58==1.0.0'],
     license="MIT",
     zip_safe=False,
     keywords='django-scatter-auth',
